@@ -16,12 +16,20 @@ ls "$DB_ROOT"
 }
 
 
+function drop_db() {
+read -p "Enter database name: " db
+rm -r "$DB_ROOT/$db" 2>/dev/null && echo "Database deleted" || echo "Database not found"
+}
+
+
 function main_menu() {
-    select choice in "Create DB" "List DB" "Exit"
+    select choice in "Create DB" "List DB"  "Drop DB" "Exit"
     do
         case $choice in
             "Create DB") create_db ;;
             "List DB") list_db ;;
+             "Drop DB") drop_db ;;
+            
             "Exit") exit ;;
             *) echo "Invalid choice" ;;
         esac
