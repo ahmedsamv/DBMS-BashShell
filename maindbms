@@ -1,0 +1,29 @@
+#! /bin/bash 
+
+
+DB_ROOT=$(pwd)/databases
+mkdir -p "$DB_ROOT"
+
+
+function create_db() {
+   read -p "Enter database name: " db
+mkdir "$DB_ROOT/$db" 2>/dev/null && echo "Database created" || echo "Database exists"
+}
+
+
+
+function main_menu() {
+    select choice in "Create DB" "Exit"
+    do
+        case $choice in
+            "Create DB") create_db ;;
+            "Exit") exit ;;
+            *) echo "Invalid choice" ;;
+        esac
+    done
+}
+
+main_menu
+
+
+
