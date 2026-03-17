@@ -1,4 +1,4 @@
-#! /bin/bash 
+#! /usr/bin/bash
 
 
 DB_ROOT=$(pwd)/databases
@@ -10,13 +10,18 @@ function create_db() {
 mkdir "$DB_ROOT/$db" 2>/dev/null && echo "Database created" || echo "Database exists"
 }
 
+function list_db() {
+echo "Databases:"
+ls "$DB_ROOT"
+}
 
 
 function main_menu() {
-    select choice in "Create DB" "Exit"
+    select choice in "Create DB" "List DB" "Exit"
     do
         case $choice in
             "Create DB") create_db ;;
+            "List DB") list_db ;;
             "Exit") exit ;;
             *) echo "Invalid choice" ;;
         esac
