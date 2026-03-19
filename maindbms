@@ -1,7 +1,10 @@
 #! /usr/bin/bash
+shopt -s extglob
+        . TablesMenu
 
 
-DB_ROOT=$(pwd)/databases
+DB_ROOT="./databases"
+
 mkdir -p "$DB_ROOT"
 
 
@@ -21,14 +24,27 @@ read -p "Enter database name: " db
 rm -r "$DB_ROOT/$db" 2>/dev/null && echo "Database deleted" || echo "Database not found"
 }
 
+function connect_db() {
+    read -p "Enter DB name: " dbname
+
+    if [ -d "databases/$dbname" ]; then
+        cd "databases/$dbname"
+	table_menu
+        cd - > /dev/null
+    else
+        echo "Database not found!"
+    fi
+}
+
 
 function main_menu() {
-    select choice in "Create DB" "List DB"  "Drop DB" "Exit"
+    select choice in "Create DB" "List DB"  "Connect DB" "Drop DB" "Exit"
     do
         case $choice in
             "Create DB") create_db ;;
             "List DB") list_db ;;
              "Drop DB") drop_db ;;
+             "Connect DB") connect_db ;;
             
             "Exit") exit ;;
             *) echo "Invalid choice" ;;
