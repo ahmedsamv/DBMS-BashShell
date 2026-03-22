@@ -27,8 +27,7 @@ function create_table() {
     echo "Table name cannot be empty"
     return
   fi
-
-
+ 
     
   if [[ ! "$table" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
     echo "Invalid table name (use letters, numbers, underscore only)"
@@ -40,6 +39,12 @@ function create_table() {
     echo "Table already exists"
     return
   fi
+    read -p "Enter number of columns: " cols
+
+  if ! [[ $cols =~ ^[0-9]+$ ]]; then
+    echo "Invalid number"
+    return
+  fi
 
 
   touch "$table"
@@ -48,3 +53,5 @@ function create_table() {
  
   echo "Table created"
 }
+
+
