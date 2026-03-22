@@ -1,75 +1,16 @@
 #! /usr/bin/bash
 shopt -s extglob
-
-
+ 
+ source tables/creatingtable
+source tables/listingtable
 function table_menu() {
-    select choice in "Create Table" "Back"
+    select choice in "Create Table" "list Tables"   "Back"
     do
         case $choice in
             "Create Table") create_table ;;
-
+             "list Tables") list_tables ;;
             "Back") break ;;
         esac
     done
 }
 
- 
-function create_table() {
-  
-  if [ -z "$dbname" ]; then
-    echo "No database selected"
-    return
-  fi
-
-  read -p "Enter table name: " table
-  
- if [ -z "$table" ]; then
-    echo "Table name cannot be empty"
-    return
-  fi
- 
-    
-  if [[ ! "$table" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
-    echo "Invalid table name (use letters, numbers, underscore only)"
-    return
-  fi
-
- 
-  if [ -f "$table" ]; then
-    echo "Table already exists"
-    return
-  fi
-    read -p "Enter number of columns: " cols
-
-  if ! [[ $cols =~ ^[0-9]+$ ]]; then
-    echo "Invalid number"
-    return
-  fi
-   
-   meta_data=""
-
-  for ((i=1; i<=cols; i++))
-  do
-    read -p "Column name: " col
-    read -p "Column type (int/string): " type
-
-    if [[ ! $col =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
-      echo "Invalid column name"
-      return
-    fi
-
-    if [[ "$type" != "int" && "$type" != "string" ]]; then
-      echo "Invalid type"
-      return
-    fi
-
- 
-    meta_data+="$col:$type"$'\n'
-  done
-
-   
-  touch "$table"
-  echo "$meta_data" > "${table}_meta"}
-
-  echo "Table created successfully"
-}

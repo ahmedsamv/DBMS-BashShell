@@ -1,0 +1,12 @@
+
+
+
+function list_tables() {
+
+  if [ -z "$dbname" ]; then
+    echo "No database selected"
+    return
+  fi
+
+  ls "." | grep -v "_meta"
+}
