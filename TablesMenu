@@ -14,3 +14,18 @@ function table_menu() {
 }
 
  
+function create_table() {
+  
+  if [ -z "$dbname" ]; then
+    echo "No database selected"
+    return
+  fi
+
+  read -p "Enter table name: " table
+
+  touch "$table"
+ 
+ 
+ 
+  echo "Table created"
+}
