@@ -45,13 +45,31 @@ function create_table() {
     echo "Invalid number"
     return
   fi
+   
+   meta_data=""
 
+  for ((i=1; i<=cols; i++))
+  do
+    read -p "Column name: " col
+    read -p "Column type (int/string): " type
 
+    if [[ ! $col =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
+      echo "Invalid column name"
+      return
+    fi
+
+    if [[ "$type" != "int" && "$type" != "string" ]]; then
+      echo "Invalid type"
+      return
+    fi
+
+ 
+    meta_data+="$col:$type"$'\n'
+  done
+
+   
   touch "$table"
- 
-   touch "${table}_meta"
- 
-  echo "Table created"
+  echo "$meta_data" > "${table}_meta"}
+
+  echo "Table created successfully"
 }
-
-
