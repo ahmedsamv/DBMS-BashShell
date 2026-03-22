@@ -25,7 +25,7 @@ function create_table() {
 
   touch "$table"
  
- 
+   touch "${table}_meta"
  
   echo "Table created"
 }
