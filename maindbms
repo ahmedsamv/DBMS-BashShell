@@ -13,12 +13,13 @@ function create_db() {
 mkdir "$DB_ROOT/$db" 2>/dev/null && echo "Database created" || echo "Database exists"
 }
 
+#-----------------------------------------
 function list_db() {
 echo "Databases:"
 ls "$DB_ROOT"
 }
 
-
+#-----------------------------------------
 
 
 function connect_db() {
@@ -32,6 +33,8 @@ function connect_db() {
         echo "Database not found!"
     fi
 }
+#-----------------------------------------
+
 
 # drop data base with confirm that command 
 function drop_db() {
@@ -62,20 +65,51 @@ function drop_db() {
             ;;
     esac
 }
+#-----------------------------------------
 
+function rename_db() {
+    read -p "Enter current database name: " old_name
+        # Check if old DB exists
+    if [ -z "$old_name" ] || [ ! -d "$DB_ROOT/$old_name" ]; then
+        echo "Invalid input or Database '$old_name' not found!"
+        return
+    fi
+    
+    read -p "Enter new database name: " new_name
+    
+ # Check if new DB already exists
+    if [ -z "$new_name" ] || [ -d "$DB_ROOT/$new_name" ]; then
+        echo "Invalid input or Database '$new_name' already exists!"
+        return
+    fi
+    
+    # Validate input if empty
+   
 
+    # Rename
+    mv "$DB_ROOT/$old_name" "$DB_ROOT/$new_name" \
+        && echo "Database renamed successfully!" \
+        || echo "Rename failed!"
+}
+#-----------------------------------------
 function main_menu() {
-    select choice in "Create DB" "List DB"  "Connect DB" "Drop DB" "Exit"
+ PS3="Your choice: " 
+   while true; do
+        echo "=================================="
+        echo " Please choose from the menu below:"
+        echo "=================================="
+    select choice in "Create DB" "List DB"  "Connect DB" "Drop DB" "Rename DB" "Exit"
     do
         case $choice in
-            "Create DB") create_db ;;
-            "List DB") list_db ;;
-             "Drop DB") drop_db ;;
-             "Connect DB") connect_db ;;
-            
+            "Create DB") create_db ; break ;; 
+            "List DB") list_db ; break ;; 
+             "Drop DB") drop_db ; break ;; 
+             "Connect DB") connect_db ; break ;; 
+            "Rename DB") rename_db ;;
             "Exit") exit ;;
             *) echo "Invalid choice" ;;
         esac
+    done
     done
 }
 
