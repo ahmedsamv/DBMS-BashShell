@@ -1,6 +1,9 @@
 # DBMS-BashShell
-Bash Shell Script Database Management System (DBMS)
+Bash Shell Script Database Management System (DBMS) 
 
+
+
+#work split (Nasef & Sami)
 ----- Mohamed Nasef ---- 
 1) Create Table
 2) List Tables
