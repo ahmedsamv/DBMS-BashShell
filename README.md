@@ -31,22 +31,22 @@ It allows users to create and manage databases and tables directly from the term
 
 
 # work split (Nasef & Sami)
+
 - Mohamed Nasef 
-1) Create Table
-2) List Tables
-3) Drop Table
-4) Insert into Table
+  - Create Table
+  - List Tables
+  - Drop Table
+  - Insert into Table
 
 
 
 -  Ahmed Sami 
-1)
--- Create Database
--- List Databases
--- Connect to Database
--- Drop Database
-2) Select From Table
-3) Delete From Table
-4) Update Table
-5) Disconnect
+  - Create Database
+  - List Databases
+  - Connect to Database
+  - Drop Database
+  - Select From Table
+  - Delete From Table
+  - Update Table
+  - Disconnect
                          
