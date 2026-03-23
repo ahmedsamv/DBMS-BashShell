@@ -4,29 +4,29 @@ It allows users to create and manage databases and tables directly from the term
 
 - The system simulates basic DBMS functionality by storing:
 
-- Databases as directories 
+  - Databases as directories 
 
-- Tables as files 
+  - Tables as files 
 
-- Records as text rows
+  - Records as text rows
 
 # Features 
 - Main Menu
 
-- Create Database
-- List Databases
-- Connect to Database
-- Drop Database
+  - Create Database
+  - List Databases
+  - Connect to Database
+  - Drop Database
 
 - Table Menu (inside a database)
 
-- Create Table
-- List Tables
-- Drop Table
-- Insert into Table
-- Select from Table
-- Delete from Table
-- Update Table
+  - Create Table
+  - List Tables
+  - Drop Table
+  - Insert into Table
+  - Select from Table
+  - Delete from Table
+  - Update Table
 
 
 
