@@ -40,7 +40,7 @@ It allows users to create and manage databases and tables directly from the term
 
 
 
--  Ahmed Sami 
+- Ahmed Sami 
   - Create Database
   - List Databases
   - Connect to Database
