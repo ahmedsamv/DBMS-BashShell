@@ -5,7 +5,9 @@ shopt -s extglob
 source tables/listingtable
 source tables/drop_table
 function table_menu() {
+ 
     select choice in "Create Table" "list Tables" "drop_Table"  "Back"
+ 
     do
         case $choice in
             "Create Table") create_table ;;

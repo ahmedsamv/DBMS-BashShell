@@ -1,22 +1,52 @@
 # DBMS-BashShell
-Bash Shell Script Database Management System (DBMS)
+this project is a simple Database Management System (DBMS) built using Bash scripting.
+It allows users to create and manage databases and tables directly from the terminal without using any external database software.
 
------ Mohamed Nasef ---- 
-1) Create Table
-2) List Tables
-3) Drop Table
-4) Insert into Table
+- The system simulates basic DBMS functionality by storing:
+
+  - Databases as directories 
+
+  - Tables as files 
+
+  - Records as text rows
+
+# Features 
+- Main Menu
+
+  - Create Database
+  - List Databases
+  - Connect to Database
+  - Drop Database
+
+- Table Menu (inside a database)
+
+  - Create Table
+  - List Tables
+  - Drop Table
+  - Insert into Table
+  - Select from Table
+  - Delete from Table
+  - Update Table
 
 
 
-----  Ahmed Sami ----
-1)
--- Create Database
--- List Databases
--- Connect to Database
--- Drop Database
-2) Select From Table
-3) Delete From Table
-4) Update Table
-5) Disconnect
+# work split (Nasef & Sami)
+
+- Mohamed Nasef 
+  - Create Table
+  - List Tables
+  - Drop Table
+  - Insert into Table
+
+
+
+-  Ahmed Sami 
+  - Create Database
+  - List Databases
+  - Connect to Database
+  - Drop Database
+  - Select From Table
+  - Delete From Table
+  - Update Table
+  - Disconnect
                          
