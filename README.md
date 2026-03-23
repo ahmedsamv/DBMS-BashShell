@@ -3,7 +3,7 @@ Bash Shell Script Database Management System (DBMS)
 
 
 
-#work split (Nasef & Sami)
+# work split (Nasef & Sami)
 ----- Mohamed Nasef ---- 
 1) Create Table
 2) List Tables
