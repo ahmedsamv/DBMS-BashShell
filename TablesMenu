@@ -5,7 +5,10 @@ shopt -s extglob
 source tables/listingtable
 source tables/drop_table
 function table_menu() {
- 
+  PS3="Your choice: "
+echo "=================================="
+ echo "select your choise:"
+echo "=================================="
     select choice in "Create Table" "list Tables" "drop_Table"  "Back"
  
     do
@@ -13,7 +16,7 @@ function table_menu() {
             "Create Table") create_table ;;
              "list Tables") list_tables ;;
              "drop_Table") drop_table  ;;
-            "Back") break ;;
+              "Back") break ;;
         esac
     done
 }
