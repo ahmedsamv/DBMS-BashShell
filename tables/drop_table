@@ -18,5 +18,5 @@ function drop_table() {
   rm "${table}_meta"
 
   echo "Table deleted"
-  
+  fi
 }
