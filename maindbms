@@ -27,6 +27,7 @@ function connect_db() {
 
     if [ -d "databases/$dbname" ]; then
         cd "databases/$dbname"
+        current_db="$DB_ROOT/$db"
 	table_menu
         cd - > /dev/null
     else
@@ -101,10 +102,10 @@ function main_menu() {
     select choice in "Create DB" "List DB"  "Connect DB" "Drop DB" "Rename DB" "Exit"
     do
         case $choice in
-            "Create DB") create_db ; break ;; 
-            "List DB") list_db ; break ;; 
-             "Drop DB") drop_db ; break ;; 
-             "Connect DB") connect_db ; break ;; 
+            "Create DB") create_db ;; 
+            "List DB") list_db ;; 
+             "Drop DB") drop_db ;; 
+             "Connect DB") connect_db ;; 
             "Rename DB") rename_db ;;
             "Exit") exit ;;
             *) echo "Invalid choice" ;;
