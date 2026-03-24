@@ -1,6 +1,6 @@
 #! /usr/bin/bash
 shopt -s extglob
- 
+ source addFun 
  source tables/creatingtable
 source tables/listingtable
 source tables/drop_table
@@ -9,13 +9,14 @@ function table_menu() {
 echo "=================================="
  echo "select your choise:"
 echo "=================================="
-    select choice in "Create Table" "list Tables" "drop_Table"  "Back"
+    select choice in "Create Table" "list Tables" "drop_Table" "Select_Table" "Back"
  
     do
         case $choice in
             "Create Table") create_table ;;
              "list Tables") list_tables ;;
              "drop_Table") drop_table  ;;
+             "Select_Table") select_table ;; 
               "Back") break ;;
         esac
     done
