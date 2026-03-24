@@ -30,34 +30,103 @@ function create_table() {
     echo "Invalid number"
     return
   fi
-   
-   meta_data=""
-
+    
+   meta_line=""
+  cols_names=()
+  pk_flag=0 
   for ((i=1; i<=cols; i++))
   do
     read -p "Column name: " col
-    read -p "Column type (int/string): " type
-
-    if [[ ! $col =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
+     if [[ ! $col =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
       echo "Invalid column name"
       return
     fi
 
-    if [[ "$type" != "int" && "$type" != "string" ]]; then
-      echo "Invalid type"
+    
+     for existing in "${cols_names[@]}"; do
+      if [[ "$existing" == "$col" ]]; then
+        echo "Column already exists"
+        return
+      fi
+    done
+
+    cols_names+=("$col")
+  while true; do
+    echo "Select column type:"
+    echo "1) int"
+    echo "2) string"
+    echo "3) float"
+    read -p "Enter choice [1-3]: " choice
+
+    case $choice in
+        1) type="int"; break ;;
+        2) type="string"; break ;;
+        3) type="float"; break ;;
+        *) echo "Invalid choice, enter 1, 2, or 3." ;;
+    esac
+done
+
+     
+
+
+ 
+
+if [[ "$type" != "int" && "$type" != "string" && "$type" != "float" ]]; then
+  echo "Invalid column type"
+  return
+fi
+
+
+
+
+
+
+ read -p "Not Null? (y/n): " nn
+   if ! [[ "$nn" == "y" || "$nn" == "Y" || "$nn" == "n" || "$nn" == "N" ]]; then
+      echo "Invalid NN input"
       return
     fi
+    
+   if [[ "$nn" == "y" || "$nn" == "Y" ]]; then
+    nn="NN"
+else
+    nn=""
+fi
+    
+    read -p "Primary Key? (y/n): " pk
+    if ! [[ "$pk" == "y" || "$pk" == "Y" || "$pk" == "n" || "$pk" == "N" ]]; then
+    echo "Not valid input, enter y or n."
+fi
+    if [[ "$pk" == "y" || "$pk" == "Y" ]]; then
+        if [[ $pk_flag -eq 1 ]]; then
+            echo "Only one Primary Key allowed"
+            return
+        fi
+     if [[ "$type" != "int" ]]; then
+        echo "Primary Key must be of type int."
+        pk="n"
+    else
+        pk_flag=1
+        pk="PK"
+        nn="NN"    
+    fi
+else
+    pk=""
+fi
+    
+    
 
- 
-    meta_data+="$col:$type"$'\n'
+     
+    if [ -z "$meta_line" ]; then
+      meta_line="$col:$type:$pk:$nn"
+    else
+        meta_line="$meta_line|$col:$type:$pk:$nn"
+    fi
+
   done
-
-   
-  touch "$table"
-  echo "$meta_data" > "${table}_meta"
-    echo "Table created successfully"
-    }
-
- 
+  
+  echo "$meta_line" > "$table"
+  echo "Table created successfully"
+}
 
   
