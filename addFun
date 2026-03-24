@@ -1,13 +1,42 @@
 #! /usr/bin/bash 
 
+	
+function  select_table() {
+    read -p "Table name: " table
 
-function select() {
+    # Check empty input
+    if [ -z "$table" ]; then
+        echo "Invalid table name!"
+        return
+    fi
 
+    # Check current_db is set
+    if [ -z "$current_db" ]; then
+        echo "No database selected!"
+        return
+    fi
 
-read -p "Table name: " table
-column -t -s "|" "$current_db/$table"
+    # Check if table exists
+    if [ ! -f "$current_db/$table" ]; then
+        echo "Table does not exist!"
+        return
+    fi
+    
+ echo "=============================="
+    echo "1) Select All"
+    echo "2) Select Specific Column"
+    echo "=============================="
 
- 	}
+    read -p "Choose option: " option
+
+		#case $option in
+
+        echo "Full Table:"
+        column -t -s "|" "$current_db/$table"
+  
+   	# echo "Available columns:"
+}
+
 
 
 

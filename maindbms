@@ -27,7 +27,7 @@ function connect_db() {
 
     if [ -d "databases/$dbname" ]; then
         cd "databases/$dbname"
-        current_db="$DB_ROOT/$db"
+        current_db="$DB_ROOT/$dbname"
 	table_menu
         cd - > /dev/null
     else
