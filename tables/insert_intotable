@@ -1,52 +1,36 @@
-
-
-
-
-
-function insert_into_table() {
-
-  if [ -z "$dbname" ]; then
-    echo "No database selected"
-    return
-  fi
+ function insert_into_table() {
 
   read -p "Enter table name: " table
 
-  if [ ! -f "$dbname/$table" ]; then
-    echo "Table does not exist"
+  if [ ! -f "$table" ]; then
+    echo "Table not found"
     return
   fi
 
+  metadata=$(head -1 "$table")
   
-  metadata=$(head -1 "$dbname/$table")
-
+  
+if [ -z "$metadata" ]; then
+  echo "Error: Table has no schema"
+  return
+fi
   IFS='|' read -ra columns <<< "$metadata"
+  
 
   record=""
-  col_index=0
 
   for col in "${columns[@]}"; do
-
     IFS=':' read col_name col_type col_pk col_nn <<< "$col"
 
-    while true; do
-      read -p "Enter value for $col_name ($col_type): " value
+    read -p "Enter value for $col_name: " value
 
-        
-        
-        
-        
-        
- 
-    if [ $col_index -eq 0 ]; then
+    if [ -z "$record" ]; then
       record="$value"
     else
       record="$record|$value"
     fi
-
-    ((col_index++))
   done
 
-  echo "$record" >> "$dbname/$table"
-  echo "Record inserted successfully"
+  echo "$record" >> "$table"
+  echo "Inserted successfully"
 }

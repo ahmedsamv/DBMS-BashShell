@@ -31,30 +31,36 @@ function create_table() {
     return
   fi
    
-   meta_data=""
+   meta_line=""
 
   for ((i=1; i<=cols; i++))
   do
     read -p "Column name: " col
-    read -p "Column type (int/string): " type
+  read -p "Column type (int/string/float): " type
 
     if [[ ! $col =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
       echo "Invalid column name"
       return
     fi
 
-    if [[ "$type" != "int" && "$type" != "string" ]]; then
-      echo "Invalid type"
-      return
-    fi
 
  
-    meta_data+="$col:$type"$'\n'
-  done
 
-   
-  touch "$table"
-  echo "$meta_data" > "${table}_meta"
+if [[ "$type" != "int" && "$type" != "string" && "$type" != "float" ]]; then
+  echo "Invalid column type"
+  return
+fi
+
+
+ 
+    if [ -z "$meta_line" ]; then
+    meta_line="$col:$type"
+  else
+    meta_line="$meta_line|$col:$type"
+  fi
+done
+
+echo "$meta_line" > "$table"
     echo "Table created successfully"
     }
 

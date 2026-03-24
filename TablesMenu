@@ -2,9 +2,9 @@
 shopt -s extglob
  
  source tables/creatingtable
-source tables/listingtable
-source tables/drop_table
-source tables/insert_intotable
+ source tables/listingtable
+ source tables/drop_table
+ source tables/insert_intotable 
 function table_menu() {
   PS3="Your choice: "
 echo "=================================="
@@ -17,7 +17,7 @@ echo "=================================="
             "Create Table") create_table ;;
              "list Tables") list_tables ;;
              "drop_Table") drop_table  ;;
-             "insert_into_table")  insert_into_table  ;;
+             "insert_into_table") insert_into_table ;;
               "Back") break ;;
         esac
     done
