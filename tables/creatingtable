@@ -61,25 +61,24 @@ if [[ "$type" != "int" && "$type" != "string" && "$type" != "float" ]]; then
   echo "Invalid column type"
   return
 fi
-
- read -p "Primary Key? (y/n): " pk
-    read -p "Not Null? (y/n): " nn
-
-    [[ "$pk" == "y" ]] && pk="PK" || pk=""
+ read -p "Not Null? (y/n): " nn
+    if [[ "$nn" != "y" && "$nn" != "n" ]]; then
+      echo "Invalid NN input"
+      return
+    fi
     [[ "$nn" == "y" ]] && nn="NN" || nn=""
 
- 
+    # Build metadata
     if [ -z "$meta_line" ]; then
-    meta_line="$col:$type"
-  else
-    meta_line="$meta_line|$col:$type"
-  fi
-done
+      meta_line="$col:$type::$nn"
+    else
+      meta_line="$meta_line|$col:$type::$nn"
+    fi
 
-echo "$meta_line" > "$table"
-    echo "Table created successfully"
-    }
-
- 
+  done
+  
+  echo "$meta_line" > "$table"
+  echo "Table created successfully"
+}
 
   
