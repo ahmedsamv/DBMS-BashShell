@@ -82,14 +82,22 @@ fi
 
 
  read -p "Not Null? (y/n): " nn
-    if [[ "$nn" != "y" && "$nn" != "n" ]]; then
+   if ! [[ "$nn" == "y" || "$nn" == "Y" || "$nn" == "n" || "$nn" == "N" ]]; then
       echo "Invalid NN input"
       return
     fi
-    [[ "$nn" == "y" ]] && nn="NN" || nn=""
+    
+   if [[ "$nn" == "y" || "$nn" == "Y" ]]; then
+    nn="NN"
+else
+    nn=""
+fi
     
     read -p "Primary Key? (y/n): " pk
-    if [[ "$pk" == "y" ]]; then
+    if ! [[ "$pk" == "y" || "$pk" == "Y" || "$pk" == "n" || "$pk" == "N" ]]; then
+    echo "Not valid input, enter y or n."
+fi
+    if [[ "$pk" == "y" || "$pk" == "Y" ]]; then
         if [[ $pk_flag -eq 1 ]]; then
             echo "Only one Primary Key allowed"
             return
