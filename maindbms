@@ -26,7 +26,7 @@ function connect_db() {
     read -p "Enter DB name: " dbname
 
     if [ -d "databases/$dbname" ]; then
-        cd "databases/$dbname"
+       
         current_db="$DB_ROOT/$dbname"
 	table_menu
         cd - > /dev/null

@@ -3,6 +3,8 @@
 	
 function  select_table() {
     read -p "Table name: " table
+    table=$(echo "$table" | xargs)
+    echo "DB: $current_db"
 
     # Check empty input
     if [ -z "$table" ]; then
