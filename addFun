@@ -1,4 +1,13 @@
 #! /usr/bin/bash 
 
 
-echo hello from add fun 
+function select() {
+
+
+read -p "Table name: " table
+column -t -s "|" "$current_db/$table"
+
+ 	}
+
+
+
