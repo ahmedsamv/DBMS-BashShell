@@ -21,14 +21,56 @@ fi
 
   for col in "${columns[@]}"; do
     IFS=':' read col_name col_type col_pk col_nn <<< "$col"
-
+    
+    
+    
+   while true; do
     read -p "Enter value for $col_name: " value
+    
+    
+  if [[ "$value" == *"|"* ]]; then
+    echo "Value cannot contain |"
+    continue
+fi
+      
+      
+      if [[ "$col_nn" == "NN" && -z "$value" ]]; then
+        echo "This column cannot be empty (Not Null). Please enter a value."
+        continue
+       
+      fi
+      
+      if [[ "$col_type" == "int" ]]; then
+        if ! [[ "$value" =~ ^-?[0-9]+$ ]]; then
+          echo "Invalid input: must be an integer."
+          continue
+        fi
+      elif [[ "$col_type" == "float" ]]; then
+        if ! [[ "$value" =~ ^-?[0-9]*\.?[0-9]+$ ]]; then
+          echo "Invalid input: must be a float."
+          continue
+        fi
+      fi
+      
+      
+     if [[ "$col_pk" == "PK" ]]; then
+    if grep -q "^$value" "$table"; then
+        echo "Primary Key must be unique. Value already exists."
+        continue
+    fi
+    
+fi
+      break
+      
+       done
 
     if [ -z "$record" ]; then
       record="$value"
     else
       record="$record|$value"
+      
     fi
+    
   done
 
   echo "$record" >> "$table"

@@ -33,6 +33,7 @@ function create_table() {
     
    meta_line=""
   cols_names=()
+  pk_flag=0 
   for ((i=1; i<=cols; i++))
   do
     read -p "Column name: " col
@@ -61,18 +62,44 @@ if [[ "$type" != "int" && "$type" != "string" && "$type" != "float" ]]; then
   echo "Invalid column type"
   return
 fi
+
+
+
+
+
+
  read -p "Not Null? (y/n): " nn
     if [[ "$nn" != "y" && "$nn" != "n" ]]; then
       echo "Invalid NN input"
       return
     fi
     [[ "$nn" == "y" ]] && nn="NN" || nn=""
-
-    # Build metadata
-    if [ -z "$meta_line" ]; then
-      meta_line="$col:$type::$nn"
+    
+    read -p "Primary Key? (y/n): " pk
+    if [[ "$pk" == "y" ]]; then
+        if [[ $pk_flag -eq 1 ]]; then
+            echo "Only one Primary Key allowed"
+            return
+        fi
+     if [[ "$type" != "int" ]]; then
+        echo "Primary Key must be of type int."
+        pk="n"
     else
-      meta_line="$meta_line|$col:$type::$nn"
+        pk_flag=1
+        pk="PK"
+        nn="NN"    
+    fi
+else
+    pk=""
+fi
+    
+    
+
+     
+    if [ -z "$meta_line" ]; then
+      meta_line="$col:$type:$pk:$nn"
+    else
+        meta_line="$meta_line|$col:$type:$pk:$nn"
     fi
 
   done
