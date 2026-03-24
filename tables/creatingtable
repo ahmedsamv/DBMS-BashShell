@@ -30,18 +30,29 @@ function create_table() {
     echo "Invalid number"
     return
   fi
-   
+    
    meta_line=""
-
+  cols_names=()
   for ((i=1; i<=cols; i++))
   do
     read -p "Column name: " col
-  read -p "Column type (int/string/float): " type
-
-    if [[ ! $col =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
+     if [[ ! $col =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
       echo "Invalid column name"
       return
     fi
+
+    
+     for existing in "${cols_names[@]}"; do
+      if [[ "$existing" == "$col" ]]; then
+        echo "Column already exists"
+        return
+      fi
+    done
+
+    cols_names+=("$col")
+  read -p "Column type (int/string/float): " type
+
+     
 
 
  
@@ -51,6 +62,11 @@ if [[ "$type" != "int" && "$type" != "string" && "$type" != "float" ]]; then
   return
 fi
 
+ read -p "Primary Key? (y/n): " pk
+    read -p "Not Null? (y/n): " nn
+
+    [[ "$pk" == "y" ]] && pk="PK" || pk=""
+    [[ "$nn" == "y" ]] && nn="NN" || nn=""
 
  
     if [ -z "$meta_line" ]; then
