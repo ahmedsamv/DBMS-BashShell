@@ -40,7 +40,45 @@ function spesific_column () {
 
 }
 
+function Select_W_Condition () {
 
+ header=$(head -1 "$current_db/$tablex")
+    IFS='|' read -ra cols <<< "$header"
+
+    echo "Available columns:"
+    for col_def in "${cols[@]}"; do
+        col_name=$(echo "$col_def" | cut -d: -f1)
+        echo "- $col_name"
+    done
+
+    read -p "Enter column name: " col_input
+    col_input=$(echo "$col_input" | xargs)
+
+    read -p "Enter value: " value
+    value=$(echo "$value" | xargs)
+
+    # find column index
+    col_index=-1
+    for i in "${!cols[@]}"; do
+        name=$(echo "${cols[$i]}" | cut -d: -f1)
+        if [[ "$name" == "$col_input" ]]; then
+            col_index=$((i+1))
+            break
+        fi
+    done
+
+    if [[ $col_index -eq -1 ]]; then
+        echo "Column not found!"
+        return
+    fi
+
+    echo "Result:"
+
+    awk -F'|' -v col="$col_index" -v val="$value" '
+        NR==1 || $col == val
+    ' "$current_db/$tablex" | column -t -s "|"
+
+}
 
 
 
@@ -84,6 +122,10 @@ echo "3) Select With Condition"
             spesific_column
             
             ;;
+        3)
+        	echo "Select With Condition"
+        	Select_W_Condition
+        	 ;;
         *)
             echo " Invalid option"
             ;;
