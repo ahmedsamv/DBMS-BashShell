@@ -7,20 +7,20 @@ function create_table() {
     echo "No database selected"
     return
   fi
-  read -p "Enter table name: " table  
- if [ -z "$table" ]; then
+  read -p "Enter table name: " table1  
+ if [ -z "$table1" ]; then
     echo "Table name cannot be empty"
     return
   fi
  
     
-  if [[ ! "$table" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+  if [[ ! "$table1" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
     echo "Invalid table name (use letters, numbers, underscore only)"
     return
   fi
 
  
-  if [ -f "$table" ]; then
+  if [ -f "$table1" ]; then
     echo "Table already exists"
     return
   fi
@@ -125,7 +125,7 @@ fi
 
   done
   
-  echo "$meta_line" > "$table"
+  echo "$meta_line" > "$current_db/$table1"
   echo "Table created successfully"
 }
 

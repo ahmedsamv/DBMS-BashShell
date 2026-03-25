@@ -1,13 +1,13 @@
  function insert_into_table() {
 
-  read -p "Enter table name: " table
+  read -p "Enter table name: " tablez
 
-  if [ ! -f "$table" ]; then
+  if [ ! -f "$current_db/$tablez" ]; then
     echo "Table not found"
     return
   fi
 
-  metadata=$(head -1 "$table")
+  metadata=$(head -1 "$current_db/$tablez")
   
   
 if [ -z "$metadata" ]; then
@@ -54,7 +54,7 @@ fi
       
       
      if [[ "$col_pk" == "PK" ]]; then
-    if grep -q "^$value" "$table"; then
+    if grep -q "^$value" "$current_db/$tablez"; then
         echo "Primary Key must be unique. Value already exists."
         continue
     fi
@@ -73,6 +73,6 @@ fi
     
   done
 
-  echo "$record" >> "$table"
+  echo "$record" >> "$current_db/$tablez"
   echo "Inserted successfully"
 }

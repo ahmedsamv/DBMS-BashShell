@@ -8,5 +8,5 @@ function list_tables() {
     return
   fi
 
-  ls "." | grep -v "_meta"
+  ls "$current_db/$table" | grep -v "_meta"
 }

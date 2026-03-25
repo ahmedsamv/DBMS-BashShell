@@ -6,9 +6,9 @@ function drop_table() {
     return
   fi
 
-  read -p "Enter table name: " table
+  read -p "Enter table name: " table2
 
-  if [ ! -f "$table" ]; then
+  if [ ! -f "$current_db/$table2" ]; then
     echo "Table not found"
     return
   fi
@@ -17,8 +17,8 @@ function drop_table() {
    
     case $k in
         y|Y)
-            rm  "$table"
-            echo "Database deleted"
+            rm  "$current_db/$table2"
+            echo "table deleted"
             ;;
         n|N)
             echo "Operation cancelled"

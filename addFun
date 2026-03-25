@@ -2,12 +2,12 @@
 
 	
 function  select_table() {
-    read -p "Table name: " table
-    table=$(echo "$table" | xargs)
+    read -p "Table name: " tablex
+    tablex=$(echo "$tablex" | xargs)
     echo "DB: $current_db"
 
     # Check empty input
-    if [ -z "$table" ]; then
+    if [ -z "$tablex" ]; then
         echo "Invalid table name!"
         return
     fi
@@ -19,7 +19,7 @@ function  select_table() {
     fi
 
     # Check if table exists
-    if [ ! -f "$current_db/$table" ]; then
+    if [ ! -f "$current_db/$tablex" ]; then
         echo "Table does not exist!"
         return
     fi
@@ -34,7 +34,7 @@ function  select_table() {
 		#case $option in
 
         echo "Full Table:"
-        column -t -s "|" "$current_db/$table"
+        column -t -s "|" "$current_db/$tablex"
   
    	# echo "Available columns:"
 }
