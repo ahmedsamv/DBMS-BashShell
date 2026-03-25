@@ -133,5 +133,66 @@ echo "3) Select With Condition"
 }
 
 
+function delete_from_table() {
+    read -p "Enter table name: " table3
+    table5=$(echo "$table3" | xargs)
+
+    #  Validation
+    if [[ -z "$table3" || -z "$current_db" ]]; then
+        echo " Invalid input or no DB selected!"
+        return
+    fi
+
+    if [[ ! -f "$current_db/$table3" ]]; then
+        echo " Table does not exist!"
+        return
+    fi
+
+    header=$(head -1 "$current_db/$table3")
+    IFS='|' read -ra cols <<< "$header"
+
+    echo "Available columns:"
+    for col_def in "${cols[@]}"; do
+        col_name=$(echo "$col_def" | cut -d: -f1)
+        echo "- $col_name"
+    done
+
+    read -p "Enter column name: " col_input
+    col_input=$(echo "$col_input" | xargs)
+
+    read -p "Enter value: " value
+    value=$(echo "$value" | xargs)
+
+    #  Find column index
+    col_index=-1
+    for i in "${!cols[@]}"; do
+        name=$(echo "${cols[$i]}" | cut -d: -f1)
+        if [[ "$name" == "$col_input" ]]; then
+            col_index=$((i+1))
+            break
+        fi
+    done
+
+    if [[ $col_index -eq -1 ]]; then
+        echo " Column not found!"
+        return
+    fi
+
+    #  Confirm delete
+    read -p "Are you sure you want to delete rows where $col_input = $value? (y/n): " confirm
+    [[ $confirm != [yY] ]] && echo "Cancelled" && return
+
+    # Delete using awk (keep header)
+    tmp_file=$(mktemp)
+
+    awk -F'|' -v col="$col_index" -v val="$value" '
+        NR==1 || $col != val
+    ' "$current_db/$table3" > "$tmp_file"
+
+    mv "$tmp_file" "$current_db/$table3"
+
+    echo " Rows deleted successfully!"
+}
+
 
 

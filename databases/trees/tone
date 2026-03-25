@@ -1,3 +1,2 @@
 id:int:PK:NN|name:string::NN|age:int::NN|course:string::NN
 1|amr|30|spanish
-2|nada|35|3

@@ -11,7 +11,7 @@ echo "=================================="
  echo "select your choise:"
 echo "=================================="
  
-    select choice in "Create Table" "list Tables" "drop_Table" "insert_into_table" "Select_Table"  "Back"
+    select choice in "Create Table" "list Tables" "drop_Table" "insert_into_table" "Select_Table" "Delete_from_table" "Back"
  
     do
         case $choice in
@@ -20,6 +20,7 @@ echo "=================================="
              "drop_Table") drop_table  ;;
              "insert_into_table") insert_into_table ;;
              "Select_Table") select_table ;; 
+             "Delete_from_table") delete_from_table ;;
  
               "Back") break ;;
         esac
