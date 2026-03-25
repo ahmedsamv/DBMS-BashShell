@@ -29,7 +29,7 @@ function connect_db() {
        
         current_db="$DB_ROOT/$dbname"
 	table_menu
-        cd - > /dev/null
+        
     else
         echo "Database not found!"
     fi

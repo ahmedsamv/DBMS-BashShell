@@ -1,5 +1,49 @@
 #! /usr/bin/bash 
 
+
+function spesific_column () {
+ header=$(head -1 "$current_db/$tablex")
+    IFS='|' read -ra cols <<< "$header"
+
+    echo "Available columns:"
+    for col_def in "${cols[@]}"; do
+        col_name=$(echo "$col_def" | cut -d: -f1)
+        echo "- $col_name"
+    done
+
+    read -p "Enter column name: " col_input
+    col_input=$(echo "$col_input" | xargs)
+
+    # find column index
+    col_index=-1
+    for i in "${!cols[@]}"; do
+        name=$(echo "${cols[$i]}" | cut -d: -f1)
+        if [[ "$name" == "$col_input" ]]; then
+            col_index=$((i+1))
+            break
+        fi
+    done
+
+    if [[ $col_index -eq -1 ]]; then
+        echo " Column not found!"
+        return
+    fi
+
+    echo "Column: $col_input"
+
+    # print column with header
+    {
+        echo "$col_input"
+        tail -n +2 "$current_db/$tablex" | cut -d'|' -f"$col_index"
+    } | column -t
+
+
+}
+
+
+
+
+
 	
 function  select_table() {
     read -p "Table name: " tablex
@@ -24,19 +68,26 @@ function  select_table() {
         return
     fi
     
- echo "=============================="
-    echo "1) Select All"
-    echo "2) Select Specific Column"
-    echo "=============================="
-
+echo "1: Full Table"
+echo "2: Select Specific Column"
+	
+echo "3) Select With Condition"
     read -p "Choose option: " option
-
-		#case $option in
-
-        echo "Full Table:"
-        column -t -s "|" "$current_db/$tablex"
-  
-   	# echo "Available columns:"
+	
+    case $option in
+        1)
+            echo "Full Table:"
+            column -t -s "|" "$current_db/$tablex"
+            ;;
+        2)
+            echo "Select Specific Column"
+            spesific_column
+            
+            ;;
+        *)
+            echo " Invalid option"
+            ;;
+    esac
 }
 
 
