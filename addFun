@@ -1,6 +1,6 @@
 #! /usr/bin/bash 
 
-
+# ------------------------------------------ spesific_column function ----------
 function spesific_column () {
  header=$(head -1 "$current_db/$tablex")
     IFS='|' read -ra cols <<< "$header"
@@ -39,7 +39,7 @@ function spesific_column () {
 
 
 }
-
+# ------------------------------------------ Select_W_Condition function ----------
 function Select_W_Condition () {
 
  header=$(head -1 "$current_db/$tablex")
@@ -82,7 +82,7 @@ function Select_W_Condition () {
 
 
 
-	
+	# ------------------------------------------ select function ----------
 function  select_table() {
     read -p "Table name: " tablex
     tablex=$(echo "$tablex" | xargs)
@@ -131,7 +131,7 @@ echo "3) Select With Condition"
             ;;
     esac
 }
-
+# ------------------------------------------ delete function ----------
 
 function delete_from_table() {
     read -p "Enter table name: " table3
@@ -194,5 +194,121 @@ function delete_from_table() {
     echo " Rows deleted successfully!"
 }
 
+# ------------------------------------------ update function ----------
+function update_table() {
+    read -p "Enter table name: " tableu
+    tableu1=$(echo "$tableu" | xargs)
 
+    #  Validation
+    if [[ -z "$tableu" || -z "$current_db" ]]; then
+        echo " Invalid input or no DB selected!"
+        return
+    fi
 
+    if [[ ! -f "$current_db/$tableu" ]]; then
+        echo " Table does not exist!"
+        return
+    fi
+
+    file="$current_db/$tableu"
+    header=$(head -1 "$file")
+    IFS='|' read -ra cols <<< "$header"
+
+    echo "Available columns:"
+    for col_def in "${cols[@]}"; do
+        echo "- $(echo "$col_def" | cut -d: -f1)"
+    done
+
+    #  Column to update
+    read -p "Column to update: " col_update
+    col_update=$(echo "$col_update" | xargs)
+
+    #  Condition column
+    read -p "Condition column: " cond_col
+    cond_col=$(echo "$cond_col" | xargs)
+
+    read -p "Condition value: " cond_val
+    cond_val=$(echo "$cond_val" | xargs)
+
+    read -p "New value: " new_val
+    new_val=$(echo "$new_val" | xargs)
+
+    #  Find indexes + metadata
+    upd_index=-1
+    cond_index=-1
+
+    for i in "${!cols[@]}"; do
+        name=$(echo "${cols[$i]}" | cut -d: -f1)
+
+        [[ "$name" == "$col_update" ]] && upd_index=$((i+1))
+        [[ "$name" == "$cond_col" ]] && cond_index=$((i+1))
+    done
+
+    if [[ $upd_index -eq -1 || $cond_index -eq -1 ]]; then
+        echo " Column not found!"
+        return
+    fi
+
+    #  Extract metadata for updated column
+    col_meta="${cols[$((upd_index-1))]}"
+    type=$(echo "$col_meta" | cut -d: -f2)
+    pk=$(echo "$col_meta" | cut -d: -f3)
+    nn=$(echo "$col_meta" | cut -d: -f4)
+
+    # =============================
+    # Constraints Validation
+    # =============================
+
+    # NOT NULL
+    if [[ "$nn" == "NN" && -z "$new_val" ]]; then
+        echo " This column cannot be NULL!"
+        return
+    fi
+
+    # Data type
+    case $type in
+        int)
+            [[ ! "$new_val" =~ ^-?[0-9]+$ ]] && echo " Must be integer!" && return
+            ;;
+        float)
+            [[ ! "$new_val" =~ ^-?[0-9]+(\.[0-9]+)?$ ]] && echo "Must be float!" && return
+            ;;
+        string)
+            ;; # always ok
+    esac
+
+    # PRIMARY KEY uniqueness
+    if [[ "$pk" == "PK" ]]; then
+        if awk -F'|' -v col="$upd_index" -v val="$new_val" 'NR>1 && $col==val {exit 1}' "$file"; then
+            :
+        else
+            echo " Duplicate value for Primary Key!"
+            return
+        fi
+    fi
+
+    #  Confirm
+    read -p "Confirm update? (y/n): " confirm
+    [[ $confirm != [yY] ]] && echo "Cancelled" && return
+
+    # =============================
+    # Update using awk
+    # =============================
+    tmp_file=$(mktemp)
+
+    awk -F'|' -v OFS='|' \
+        -v ucol="$upd_index" -v ccol="$cond_index" \
+        -v cond="$cond_val" -v new="$new_val" '
+        NR==1 {print; next}
+        {
+            if ($ccol == cond) {
+                $ucol = new
+            }
+            print
+        }
+    ' "$file" > "$tmp_file"
+
+    mv "$tmp_file" "$file"
+
+    echo " Update completed successfully!"
+}
