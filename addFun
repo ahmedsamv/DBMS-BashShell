@@ -196,6 +196,7 @@ function delete_from_table() {
 
 # ------------------------------------------ update function ----------
 function update_table() {
+while true; do
     read -p "Enter table name: " tableu
     tableu1=$(echo "$tableu" | xargs)
 
@@ -311,4 +312,11 @@ function update_table() {
     mv "$tmp_file" "$file"
 
     echo " Update completed successfully!"
+    read -p "Do you want to update another record? (y/n): " again
+
+        if [[ $again != [yY] ]]; then
+            echo "Returning to menu..."
+            break
+        fi
+    done
 }
