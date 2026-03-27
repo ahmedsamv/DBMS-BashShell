@@ -215,9 +215,9 @@ while true; do
 
 # ------------------------------------------ update function ----------
 function update_table() {
-while true; do
+
     read -p "Enter table name: " tableu
-    tableu1=$(echo "$tableu" | xargs)
+    tableu=$(echo "$tableu" | xargs)
 
     #  Validation
     if [[ -z "$tableu" || -z "$current_db" ]]; then
@@ -231,7 +231,10 @@ while true; do
     fi
 
     file="$current_db/$tableu"
+    
+    while true; do
     header=$(head -1 "$file")
+    
     IFS='|' read -ra cols <<< "$header"
 
     echo "Available columns:"
