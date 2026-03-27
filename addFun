@@ -146,7 +146,7 @@ echo "3) Select With Condition"
 function delete_from_table() {
 
     read -p "Enter table name: " table3
-    table5=$(echo "$table3" | xargs)
+    table3=$(echo "$table3" | xargs)
 
     #  Validation
     if [[ -z "$table3" || -z "$current_db" ]]; then
@@ -186,7 +186,7 @@ while true; do
 
     if [[ $col_index -eq -1 ]]; then
         echo " Column not found!"
-        return
+        continue
     fi
 
     #  Confirm delete
