@@ -318,7 +318,10 @@ function update_table() {
     # Update using awk
     # =============================
     tmp_file=$(mktemp)
-
+if ! awk -F'|' -v col="$cond_index" -v val="$cond_val" 'NR>1 && $col==val {found=1} END {exit !found}' "$file"; then
+    echo "No matching records found!"
+    continue
+fi
     awk -F'|' -v OFS='|' \
         -v ucol="$upd_index" -v ccol="$cond_index" \
         -v cond="$cond_val" -v new="$new_val" '
