@@ -1,5 +1,5 @@
  function insert_into_table() {
-
+ while true; do
   read -p "Enter table name: " tablez
 
   if [ ! -f "$current_db/$tablez" ]; then
@@ -18,11 +18,17 @@ fi
   
 
   record=""
+  pk_index=0
+current_index=1
 
   for col in "${columns[@]}"; do
     IFS=':' read col_name col_type col_pk col_nn <<< "$col"
     
-    
+    if [[ "$col_pk" == "PK" ]]; then
+        pk_index=$current_index
+    fi
+    ((current_index++))
+
     
    while true; do
     read -p "Enter value for $col_name: " value
@@ -53,13 +59,15 @@ fi
       fi
       
       
-     if [[ "$col_pk" == "PK" ]]; then
-    if grep -q "^$value" "$current_db/$tablez"; then
-        echo "Primary Key must be unique. Value already exists."
-        continue
-    fi
-    
-fi
+     if [[ "$col_pk" == "PK" && $pk_index -ne 0 ]]; then
+        if [[ $pk_index -ne 0 ]]; then
+          if tail -n +2 "$current_db/$tablez"| cut -d '|' -f $pk_index | grep -w "$value" > /dev/null; then
+            echo "Primary Key must be unique. Value already exists."
+            continue
+          fi
+        fi
+        
+      fi
       break
       
        done
@@ -75,4 +83,10 @@ fi
 
   echo "$record" >> "$current_db/$tablez"
   echo "Inserted successfully"
+    read -p "Do you want to insert another record? (y/n): " again
+  if [[ "$again" != "y" && "$again" != "Y" ]]; then
+    break  
+  fi
+
+done
 }
