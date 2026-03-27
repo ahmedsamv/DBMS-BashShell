@@ -9,8 +9,35 @@ mkdir -p "$DB_ROOT"
 
 
 function create_db() {
-   read -p "Enter database name: " db
-mkdir "$DB_ROOT/$db" 2>/dev/null && echo "Database created" || echo "Database exists"
+    read -p "Enter database name: " db
+
+    #  Trim spaces
+    db=$(echo "$db" | xargs)
+
+    #  Empty check
+    if [[ -z "$db" ]]; then
+        echo " Database name cannot be empty!"
+        return
+    fi
+
+    #  Valid name check (letters, numbers, underscore, not starting with number)
+    if [[ ! "$db" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+        echo "Invalid name!"
+        echo "Must start with letter or _"
+        echo "Use only letters, numbers, underscore"
+        return
+    fi
+
+    #  Check if exists
+    if [[ -d "$DB_ROOT/$db" ]]; then
+        echo "Database already exists!"
+        return
+    fi
+
+    #  Create database
+    mkdir "$DB_ROOT/$db" \
+        && echo "Database created successfully!" \
+        || echo "Failed to create database!"
 }
 
 #-----------------------------------------

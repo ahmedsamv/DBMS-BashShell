@@ -1,0 +1,3 @@
+id:int:PK:NN|name:string::NN|age:float::NN
+1|fav|22
+3|dsaa|22.88
