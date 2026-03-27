@@ -84,10 +84,10 @@ function Select_W_Condition () {
 
 	# ------------------------------------------ select function ----------
 function  select_table() {
-while true; do
+
     read -p "Table name: " tablex
     tablex=$(echo "$tablex" | xargs)
-    echo "DB: $current_db"
+  
 
     # Check empty input
     if [ -z "$tablex" ]; then
@@ -106,7 +106,7 @@ while true; do
         echo "Table does not exist!"
         return
     fi
-    
+while true; do
 echo "1: Full Table"
 echo "2: Select Specific Column"
 	
