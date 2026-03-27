@@ -144,6 +144,7 @@ echo "3) Select With Condition"
 # ------------------------------------------ delete function ----------
 
 function delete_from_table() {
+while true; do
     read -p "Enter table name: " table3
     table5=$(echo "$table3" | xargs)
 
@@ -202,6 +203,14 @@ function delete_from_table() {
     mv "$tmp_file" "$current_db/$table3"
 
     echo " Rows deleted successfully!"
+          
+    read -p "Do you want to select again? (y/n): " again2
+
+        if [[ $again2 != [yY] ]]; then
+            echo "Returning to menu..."
+            break
+        fi
+    done
 }
 
 # ------------------------------------------ update function ----------
