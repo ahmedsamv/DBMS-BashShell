@@ -84,6 +84,7 @@ function Select_W_Condition () {
 
 	# ------------------------------------------ select function ----------
 function  select_table() {
+while true; do
     read -p "Table name: " tablex
     tablex=$(echo "$tablex" | xargs)
     echo "DB: $current_db"
@@ -130,6 +131,15 @@ echo "3) Select With Condition"
             echo " Invalid option"
             ;;
     esac
+    
+       echo " select completed successfully!"
+    read -p "Do you want to select again? (y/n): " again2
+
+        if [[ $again2 != [yY] ]]; then
+            echo "Returning to menu..."
+            break
+        fi
+    done
 }
 # ------------------------------------------ delete function ----------
 
