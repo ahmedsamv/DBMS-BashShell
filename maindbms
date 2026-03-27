@@ -97,25 +97,57 @@ function drop_db() {
 
 function rename_db() {
     read -p "Enter current database name: " old_name
-        # Check if old DB exists
-    if [ -z "$old_name" ] || [ ! -d "$DB_ROOT/$old_name" ]; then
-        echo "Invalid input or Database '$old_name' not found!"
-        return
-    fi
-    
-    read -p "Enter new database name: " new_name
-    
- # Check if new DB already exists
-    if [ -z "$new_name" ] || [ -d "$DB_ROOT/$new_name" ]; then
-        echo "Invalid input or Database '$new_name' already exists!"
-        return
-    fi
-    
-    # Validate input if empty
-   
+    old_name=$(echo "$old_name" | xargs)
 
-    # Rename
-    mv "$DB_ROOT/$old_name" "$DB_ROOT/$new_name" \
+    #  Validate old name
+    if [[ -z "$old_name" ]]; then
+        echo " Old name cannot be empty!"
+        return
+    fi
+
+    if [[ ! "$old_name" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+        echo " Invalid old database name!"
+        return
+    fi
+
+    if [[ ! -d "$DB_ROOT/$old_name" ]]; then
+        echo " Database '$old_name' not found!"
+        return
+    fi
+
+    #  New name
+    read -p "Enter new database name: " new_name
+    new_name=$(echo "$new_name" | xargs)
+
+    #  Validate new name
+    if [[ -z "$new_name" ]]; then
+        echo " New name cannot be empty!"
+        return
+    fi
+
+    if [[ ! "$new_name" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+        echo " Invalid new database name!"
+        echo " Use only letters, numbers, underscore"
+        echo " Must not start with a number"
+        return
+    fi
+
+    if [[ "$new_name" == "$old_name" ]]; then
+        echo " New name must be different!"
+        return
+    fi
+
+    if [[ -d "$DB_ROOT/$new_name" ]]; then
+        echo "Database '$new_name' already exists!"
+        return
+    fi
+
+    #  Confirm
+    read -p "Are you sure you want to rename '$old_name' to '$new_name'? (y/n): " confirm
+    [[ $confirm != [yY] ]] && echo "Cancelled" && return
+
+    #  Rename
+    mv -- "$DB_ROOT/$old_name" "$DB_ROOT/$new_name" \
         && echo "Database renamed successfully!" \
         || echo "Rename failed!"
 }
