@@ -144,7 +144,7 @@ echo "3) Select With Condition"
 # ------------------------------------------ delete function ----------
 
 function delete_from_table() {
-while true; do
+
     read -p "Enter table name: " table3
     table5=$(echo "$table3" | xargs)
 
@@ -158,7 +158,7 @@ while true; do
         echo " Table does not exist!"
         return
     fi
-
+while true; do
     header=$(head -1 "$current_db/$table3")
     IFS='|' read -ra cols <<< "$header"
 
