@@ -132,7 +132,7 @@ echo "3) Select With Condition"
             ;;
     esac
     
-       echo " select completed successfully!"
+    
     read -p "Do you want to select again? (y/n): " again2
 
         if [[ $again2 != [yY] ]]; then
