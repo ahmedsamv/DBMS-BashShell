@@ -97,19 +97,14 @@ fi
     if ! [[ "$pk" == "y" || "$pk" == "Y" || "$pk" == "n" || "$pk" == "N" ]]; then
     echo "Not valid input, enter y or n."
 fi
-    if [[ "$pk" == "y" || "$pk" == "Y" ]]; then
-        if [[ $pk_flag -eq 1 ]]; then
-            echo "Only one Primary Key allowed"
-            return
-        fi
-     if [[ "$type" != "int" ]]; then
-        echo "Primary Key must be of type int."
-        pk="n"
-    else
-        pk_flag=1
-        pk="PK"
-        nn="NN"    
+if [[ "$pk" == "y" || "$pk" == "Y" ]]; then
+    if [[ $pk_flag -eq 1 ]]; then
+        echo "Only one Primary Key allowed"
+        return
     fi
+    pk_flag=1
+    pk="PK"
+    nn="NN"   # PK always Not Null
 else
     pk=""
 fi
