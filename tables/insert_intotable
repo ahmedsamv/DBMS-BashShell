@@ -1,5 +1,5 @@
  function insert_into_table() {
- while true; do
+ 
   read -p "Enter table name: " tablez
 
   if [ ! -f "$current_db/$tablez" ]; then
@@ -16,7 +16,7 @@ if [ -z "$metadata" ]; then
 fi
   IFS='|' read -ra columns <<< "$metadata"
   
-
+ while true; do
   record=""
   pk_index=0
 current_index=1
