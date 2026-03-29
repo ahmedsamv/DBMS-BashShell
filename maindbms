@@ -51,6 +51,12 @@ ls "$DB_ROOT"
 
 function connect_db() {
     read -p "Enter DB name: " dbname
+    dbname=$(echo "$dbname" | xargs)  # remove spaces
+    
+    if [[ -z "$dbname" ]]; then
+        echo "Invalid input! Database name cannot be empty."
+        return
+    fi
 
     if [ -d "databases/$dbname" ]; then
        
