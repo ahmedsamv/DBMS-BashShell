@@ -1,0 +1,5 @@
+id:int:PK:NN|name:string::NN|age:int::NN|course:string::NN|email:string::NN
+1|sami|20|spanish|ahmed@yahoo.com
+2|dalia|25|spanish|dalia@gmail.com
+3|mahdy|30|Dutch|mahdy@yahoo.com
+4|nasef|24|spanish|nasef@emal.com

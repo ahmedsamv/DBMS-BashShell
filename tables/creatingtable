@@ -20,7 +20,7 @@ function create_table() {
   fi
 
  
-  if [ -f "$table1" ]; then
+  if [ -f "$DB_ROOT/$dbname/$table1" ]; then
     echo "Table already exists"
     return
   fi
