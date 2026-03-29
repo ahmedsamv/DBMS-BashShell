@@ -23,6 +23,7 @@ echo "=================================="
              "Delete_from_table") delete_from_table ;;
  	     "update_table") update_table ;;
               "Back") break ;;
+              *) echo "Invalid choice" ;;
         esac
     done
 }
